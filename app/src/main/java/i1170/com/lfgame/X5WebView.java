@@ -4,16 +4,9 @@ package i1170.com.lfgame;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 
-import com.tencent.smtt.export.external.interfaces.SslError;
-import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Ray_L_Pain on 2017/10/10 0010.
@@ -33,30 +26,6 @@ public class X5WebView extends WebView {
      * H5微信支付地址前缀
      */
     public static final String WX_PAY_URL_PREFIX = "https://wx.tenpay.com";
-    public WebViewClient client = new WebViewClient() {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url.startsWith(WX_PAY_URL_PREFIX)) {
-                //解决H5微信支付"商家参数格式有误，请联系商家解决"的问题
-                Map<String, String> extraHeaders = new HashMap<String, String>();
-                extraHeaders.put(WX_PAY_REFERER_KEY, WX_PAY_REFERER_VALUE);
-                view.loadUrl(url, extraHeaders);
-            } else {
-                /**
-                 * 防止加载网页时调起系统浏览器
-                 */
-                view.loadUrl(url);
-            }
-            Log.i(TAG, "打开的url: " + url);
-            return true;
-        }
-
-        @Override
-        public void onReceivedSslError(WebView webView, SslErrorHandler sslErrorHandler, SslError sslError) {
-            //                处理部分机型https证书验证不通过时，页面空白问题
-            sslErrorHandler.proceed();
-        }
-    };
     OnScrollChangedCallback mOnScrollChangedCallback;
 
     public X5WebView(Context context) {
@@ -67,7 +36,6 @@ public class X5WebView extends WebView {
     @SuppressLint("SetJavaScriptEnabled")
     public X5WebView(Context arg0, AttributeSet arg1) {
         super(arg0, arg1);
-        this.setWebViewClient(client);
         initWebViewSettings();
         this.getView().setClickable(true);
     }
