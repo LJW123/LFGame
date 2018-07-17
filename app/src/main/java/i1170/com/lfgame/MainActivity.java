@@ -6,19 +6,21 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import i1170.com.lfgame.activity.BaseActivity;
+
 /**
  * @author lxf
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     public static final String TAG = "MainActivity";
     public static final String HOME_URL = "http://game.koko360.com/index/index/index.html";
     /**
@@ -38,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+
         setContentView(R.layout.activity_main);
         webView = findViewById(R.id.web_view);
+//        开启硬件加速
+        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         webView.loadUrl(HOME_URL);
         setWebViewClient();
         setWebChromeClient();
@@ -73,18 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setWebChromeClient() {
         webView.setWebChromeClient(new WebChromeClient() {
-                                       // For Android < 3.0
-                                       public void openFileChooser(ValueCallback<Uri> valueCallback) {
-                                           uploadMessage = valueCallback;
-                                           openImageChooserActivity();
-                                       }
-
-                                       // For Android  >= 3.0
-                                       public void openFileChooser(ValueCallback valueCallback, String acceptType) {
-                                           uploadMessage = valueCallback;
-                                           openImageChooserActivity();
-                                       }
-
                                        //For Android  >= 4.1
                                        @Override
                                        public void openFileChooser(ValueCallback<Uri> valueCallback, String acceptType, String capture) {
@@ -98,6 +88,18 @@ public class MainActivity extends AppCompatActivity {
                                            uploadMessageAboveL = filePathCallback;
                                            openImageChooserActivity();
                                            return true;
+                                       }
+
+                                       // For Android < 3.0
+                                       public void openFileChooser(ValueCallback<Uri> valueCallback) {
+                                           uploadMessage = valueCallback;
+                                           openImageChooserActivity();
+                                       }
+
+                                       // For Android  >= 3.0
+                                       public void openFileChooser(ValueCallback valueCallback, String acceptType) {
+                                           uploadMessage = valueCallback;
+                                           openImageChooserActivity();
                                        }
                                    }
         );

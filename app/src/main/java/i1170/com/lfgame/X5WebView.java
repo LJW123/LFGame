@@ -42,6 +42,8 @@ public class X5WebView extends WebView {
 
     private void initWebViewSettings() {
         WebSettings webSetting = this.getSettings();
+//        1、提高渲染的优先级
+        webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSetting.setJavaScriptEnabled(true);
         webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
         webSetting.setAllowFileAccess(true);
@@ -58,7 +60,6 @@ public class X5WebView extends WebView {
         webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
         // webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
         webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
-        // webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSetting.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         // this.getSettingsExtension().setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);//extension

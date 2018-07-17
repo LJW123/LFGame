@@ -16,7 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-        configurations.all {
+    configurations.all {
         resolutionStrategy {
 //        解决 Resolved versions for app (26.1.0) and test app (27.1.1) differ 的问题
             force 'com.android.support:support-annotations:26.1.0'
