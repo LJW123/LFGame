@@ -10,10 +10,4 @@
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <FrameLayout
-        android:id="@+id/placeholder"
-        android:background="@android:color/transparent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </FrameLayout>

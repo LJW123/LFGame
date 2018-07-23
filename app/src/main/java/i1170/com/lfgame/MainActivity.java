@@ -3,13 +3,16 @@ package i1170.com.lfgame;
 import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.jaeger.library.StatusBarUtil;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
@@ -33,16 +36,21 @@ public class MainActivity extends BaseActivity {
     public static final String ALIPAYS_PLATFORMAPI = "alipays://platformapi";
     //打开相册选择图片
     private final static int FILE_CHOOSER_RESULT_CODE = 128;
+    public static final int PROGRESS_100 = 100;
     private X5WebView webView;
     private ValueCallback<Uri> uploadMessage;
     private ValueCallback<Uri[]> uploadMessageAboveL;
+    private View progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        StatusBarUtil.setColor(this,Color.TRANSPARENT);
+        StatusBarUtil.setColor(MainActivity.this, ContextCompat.getColor(MainActivity.this,R.color.colorAccent));
         setContentView(R.layout.activity_main);
+        progressBar = findViewById(R.id.progress_bar);
         webView = findViewById(R.id.web_view);
+        webView.setBackgroundColor(Color.TRANSPARENT);
 //        开启硬件加速
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         webView.loadUrl(HOME_URL);
@@ -75,6 +83,16 @@ public class MainActivity extends BaseActivity {
 
     private void setWebChromeClient() {
         webView.setWebChromeClient(new WebChromeClient() {
+                                       @Override
+                                       public void onProgressChanged(WebView webView, int i) {
+                                           super.onProgressChanged(webView, i);
+                                           if (i == PROGRESS_100) {
+                                               progressBar.setVisibility(View.GONE);
+                                           }else{
+                                               progressBar.setVisibility(View.VISIBLE);
+                                           }
+                                       }
+
                                        //For Android  >= 4.1
                                        @Override
                                        public void openFileChooser(ValueCallback<Uri> valueCallback, String acceptType, String capture) {

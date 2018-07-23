@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 
 import i1170.com.lfgame.activity.BaseActivity;
 
 public class StartActivity extends BaseActivity {
 
     private CustomVideoView  customVideoView;
-    private View placeholder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +22,7 @@ public class StartActivity extends BaseActivity {
 
     private void initView() {
         customVideoView = findViewById(R.id.video_view);
-        placeholder = findViewById(R.id.placeholder);
-        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.launcher);
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.launcher_black);
         customVideoView.playVideo(uri);
     }
 
@@ -33,7 +30,6 @@ public class StartActivity extends BaseActivity {
         customVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                placeholder.setBackgroundResource(R.mipmap.bg_launch_placeholder);
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
